@@ -16,20 +16,24 @@ int main()
 	char buf[1024];
 	int fds[2];
 
+	//create
 	pipe(fds);
 
+	//fork
 	pid_ret = fork();
 
 	if(pid_ret>0)
 	{
 		signal(SIGPIPE,fun);
-
+	
+	//close[0]
 		close(fds[0]);
 		while(1)
 		{
 			printf("please input:\n");
 			fgets(buf,1024,stdin);
-
+	
+	//write
 			ret = write(fds[1],buf,strlen(buf));
 			if(ret<0)
 			{
@@ -41,15 +45,20 @@ int main()
 				printf("write sucess...ret_write=%d\n",ret);
 			}
 		}
-
+	//close[1]
 		close(fds[1]);
 	}
 	else if(pid_ret==0)
 	{
+	
+	//close[1]
 		close(fds[1]);
+	
 		while(1)
 		{
+		
 			printf("read....\n");
+	//read		
 			ret = read(fds[0],buf,1024);
 			if(ret<0)
 			{
@@ -67,7 +76,8 @@ int main()
 				break;
 			}
 		}
-
+	
+	//close[0]
 		close(fds[0]);
 	}
 }
