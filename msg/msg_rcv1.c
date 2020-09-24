@@ -1,3 +1,6 @@
+//added by wanga
+//function:消息队列的接受，类型为1的
+
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/ipc.h>

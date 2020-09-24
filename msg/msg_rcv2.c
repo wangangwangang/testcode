@@ -1,3 +1,6 @@
+//added by wanga 20200924
+//function:消息队列的接受，类型为2的
+
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/ipc.h>
