@@ -31,7 +31,9 @@ int main ()
 		while(1)
 		{
 			printf("son:pid=%d,ppid=%d\n",getpid(),getppid());
+			
 			sleep(2);
+			exit(123);
 		}
 	}
 }
