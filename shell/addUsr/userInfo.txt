@@ -1,0 +1,4 @@
+useradd  qqq  passwd aqxt902-
+useradd  www  passwd aqxt902-
+useradd  eee  passwd aqxt902-
+useradd  rrr  passwd aqxt902-

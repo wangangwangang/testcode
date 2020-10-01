@@ -1,0 +1,6 @@
+#added by wanga 20191227
+#function:脚本执行列表配置文件
+
+[自动实现一周一次全量备份一天一次增量备份]     <mypath>/bsckup/bin/1_backup.sh
+[手工全量备份]								   <mypath>/backup/bin/2_fullBackup.sh
+[手工增量备份]								   <mypath>/backup/bin/3_addBackup.sh
