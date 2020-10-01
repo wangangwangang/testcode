@@ -1,0 +1,36 @@
+#!/usr/bin/expect -f
+#added by wangang 20191225
+#作用:使用expect实现ftp非交互式数据交互
+
+#设置远程服务器信息
+set ftpSvrIp "<ip>"
+set ftpUsr wanga
+set ftpPwd 1qaz2wsx
+
+#设置文件目录
+localOutDir="<mypath>/ftp/out"
+localInDir="<mypath>/ftp/in"
+targetOutDir="<mypath2>/out"
+targetInDir="<mypath2>/in"
+
+#ftp获取、推送文件
+spawn ftp $ftpSvrIp
+expect "Name*"
+send "$ftpUsr\r"
+expect "Password:*"
+send "$ftpPwd\r"
+expect "ftp>*"
+send "lcd $localInDir\r"
+expect "ftp>*"
+send "cd $targetOutDir\r"
+expect "ftp>*"
+send "get file_target\r"
+expect "ftp>*"
+send "lcd $localOutDir\r"
+expect "ftp>*"
+send "cd $targetInDir\r"
+expect "ftp>*"
+send "put file_local\r"
+
+expect eof
+
