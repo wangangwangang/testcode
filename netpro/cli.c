@@ -14,6 +14,9 @@ void fun(int seg)
 
 int main()
 {
+	
+	signal(SIGPIPE,fun);
+	
 	int fd,ret;
 	struct sockaddr_in seraddr;
 	char buf[1024];
@@ -23,24 +26,18 @@ int main()
 	
 	seraddr.sin_family=AF_INET;
 	seraddr.sin_port=htons(9000);
-	inet_pton(AF_INET,"127.0.0.1",&seraddr.sin_addr.s_addr);
-	ret=connect(fd,(struct sockaddr *)&seraddr,sizeof(seraddr));
-	if(ret<0)
-	{
-		printf("connect errpr\n");
-		exit(-1);
-	}
-	signal(SIGPIPE,fun);
+	inet_pton(AF_INET,"192.168.0.4",&seraddr.sin_addr.s_addr);
+	connect(fd,(struct sockaddr *)&seraddr,sizeof(seraddr));
 
 	while(1)
 	{
-		printf("please input:");
-		fgets(buf,1024,stdin);
+		printf("write:");
+		scanf("%s",buf);;
 
 		ret=write(fd,buf,strlen(buf));
 		if(ret>=0)
 		{
-			printf("write succeed! buf=[%s]\n",buf);
+			printf("write succeed!\n");
 		}
 		if(ret<0)
 		{

@@ -16,21 +16,20 @@ int main()
 
 	seraddr.sin_family=AF_INET;
 	seraddr.sin_port=htons(9000);
-	inet_pton(AF_INET,"127.0.0.1",&seraddr.sin_addr.s_addr); 
+	inet_pton(AF_INET,"192.168.0.4",&seraddr.sin_addr.s_addr); 
 	bind(fd,(struct sockaddr *)&seraddr,sizeof(seraddr));
 
 	listen(fd,20);
 
+	printf("accept...\n");
+	sockfd=accept(fd,(struct sockaddr *)&cliaddr,&lenofaddr);
+	
+	inet_ntop(AF_INET,&cliaddr.sin_addr.s_addr,cliip,16);
+	cliport=ntohs(cliaddr.sin_port);
+	printf("client connect:IP=[%s]\nport=[%d]\n",cliip,cliport);
+	
 	while(1)
 	{
-		sockfd=accept(fd,(struct sockaddr *)&cliaddr,&lenofaddr);
-
-		inet_ntop(AF_INET,&cliaddr.sin_addr.s_addr,cliip,16);
-
-		cliport=ntohs(cliaddr.sin_port);
-
-		printf("client:\nIP=[%s]\nport=[%d]\n",cliip,cliport);
-        
 		printf("read.....\n");
 		ret=read(sockfd,buf,sizeof(buf));
 		if(ret==0)
@@ -53,10 +52,10 @@ int main()
 			printf("buf:%s\n",buf);
 		}
 
-		close(sockfd);
 
 	}
 
+	close(sockfd);
 	close(fd);
 
 	
