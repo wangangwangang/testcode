@@ -30,19 +30,23 @@ int main()
 	inet_pton(AF_INET,"192.168.0.4",&seraddr.sin_addr.s_addr);
 	connect(fd,(struct sockaddr *)&seraddr,sizeof(seraddr));
 
-	printf("write:");
-	scanf("%s",buf);;
+	while(1)
+	{
+		printf("write:");
+		scanf("%s",buf);;
 
-	//write()
-	ret=write(fd,buf,strlen(buf));
-	if(ret>=0)
-	{
-		printf("write succeed!\n");
-	}
-	if(ret<0)
-	{
-		close(fd);
-		return -1;
+		//write()
+		ret=write(fd,buf,strlen(buf));
+		if(ret>=0)
+		{
+			printf("write succeed!\n");
+		}
+		if(ret<0)
+		{
+			close(fd);
+			return -1;
+		}
+
 	}
 
 	close(fd);
