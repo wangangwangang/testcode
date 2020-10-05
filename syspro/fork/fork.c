@@ -11,12 +11,14 @@ int main ()
 	int status;
 
 	printf("fork start...\n");
-
+	
+	//fork()
 	rpid=fork();
 
 	if(rpid>0)
 	{
-
+	    
+		//wait()
 		wait(&status);
 		printf("return1=%d\n",WEXITSTATUS(status));
 		
@@ -33,6 +35,7 @@ int main ()
 			printf("son:pid=%d,ppid=%d\n",getpid(),getppid());
 			
 			sleep(2);
+			//exit()
 			exit(123);
 		}
 	}
