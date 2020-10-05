@@ -22,7 +22,7 @@ int main()
 	fd=socket(AF_INET,SOCK_STREAM,0);
 	
 	seraddr.sin_family=AF_INET;
-	seraddr.sin_port=htonl(9000);
+	seraddr.sin_port=htons(9000);
 	inet_pton(AF_INET,"127.0.0.1",&seraddr.sin_addr.s_addr);
 	ret=connect(fd,(struct sockaddr *)&seraddr,sizeof(seraddr));
 	if(ret<0)
