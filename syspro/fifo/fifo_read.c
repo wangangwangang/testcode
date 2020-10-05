@@ -10,8 +10,10 @@ int main()
 	int fd,ret;
 	char buf[1024];
 
+	//mkfifo()
 	mkfifo("./fa",0777);
 
+	//open()
 	printf("open_read...\n");
 	fd=open("./fa",O_RDONLY);
 	if(fd<0)
@@ -23,6 +25,7 @@ int main()
 	{
 		printf("read...\n");
 		
+		//read()
 		ret=read(fd,buf,1024);
 
 		if(ret>0)
@@ -42,6 +45,7 @@ int main()
 		}
 	}
 
+	//close()
 	close(fd);
 
 	return 0;

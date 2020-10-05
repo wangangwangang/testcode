@@ -17,11 +17,14 @@ int main()
 {
 	int fd,ret;
 	char buf[1024];
-
+	
+	//signal()
 	signal(SIGPIPE,fun);
 
+	//mkfifo()
 	mkfifo("./fa",0777);
 
+	//open()
 	printf("open_write...\n");
 	fd=open("./fa",O_WRONLY);
 	if(fd<0)
@@ -35,6 +38,7 @@ int main()
 
 		fgets(buf,1024,stdin);
 		
+		//write()
 		ret=write(fd,buf,strlen(buf));
 
 		if(ret>=0)
@@ -48,7 +52,8 @@ int main()
 			break;
 		}
 	}
-
+	
+	//close()
 	close(fd);
 
 	return 0;
