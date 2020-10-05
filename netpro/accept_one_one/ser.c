@@ -11,19 +11,23 @@ int main()
 	struct sockaddr_in seraddr,cliaddr;
 	char buf[1024],cliip[16];
 
-
+	//socket()
     fd=socket(AF_INET,SOCK_STREAM,0);
 
+	//bind()
 	seraddr.sin_family=AF_INET;
 	seraddr.sin_port=htons(9000);
 	inet_pton(AF_INET,"192.168.0.4",&seraddr.sin_addr.s_addr); 
 	bind(fd,(struct sockaddr *)&seraddr,sizeof(seraddr));
 
+	//listen()
 	listen(fd,20);
-
+	
+	//accepe()
 	printf("accept...\n");
 	sockfd=accept(fd,(struct sockaddr *)&cliaddr,&lenofaddr);
 	
+
 	inet_ntop(AF_INET,&cliaddr.sin_addr.s_addr,cliip,16);
 	cliport=ntohs(cliaddr.sin_port);
 	printf("client connect:IP=[%s]\nport=[%d]\n",cliip,cliport);
@@ -31,6 +35,8 @@ int main()
 	while(1)
 	{
 		printf("read.....\n");
+		
+		//read()
 		ret=read(sockfd,buf,sizeof(buf));
 		if(ret==0)
 		{

@@ -21,9 +21,10 @@ int main()
 	struct sockaddr_in seraddr;
 	char buf[1024];
 
-
+	//socket()
 	fd=socket(AF_INET,SOCK_STREAM,0);
 	
+	//connect()
 	seraddr.sin_family=AF_INET;
 	seraddr.sin_port=htons(9000);
 	inet_pton(AF_INET,"192.168.0.4",&seraddr.sin_addr.s_addr);
@@ -33,7 +34,8 @@ int main()
 	{
 		printf("write:");
 		scanf("%s",buf);;
-
+	
+		//write()
 		ret=write(fd,buf,strlen(buf));
 		if(ret>=0)
 		{
