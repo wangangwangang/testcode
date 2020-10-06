@@ -39,8 +39,10 @@ int main()
 	int ret;
 	PSTU res;
 
+	//pthread_create()
 	ret = pthread_create(&pth_id,NULL,fun,NULL);
-
+	
+	//pthread_join()
 	pthread_join(pth_id,(void **)&res);
 	printf("--------num=%d,name=%s\n",res->num,res->name);
 	free(res);
