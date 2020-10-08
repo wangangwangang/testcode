@@ -4,8 +4,8 @@
 #include <string.h>
 #include <unistd.h>
 #include <signal.h>
-//#include <netinet/in.h>
 #include <arpa/inet.h>
+#include "common.h"
 
 void fun(int seg)
 {
@@ -20,6 +20,7 @@ int main()
 	int fd,ret;
 	struct sockaddr_in seraddr;
 	char buf[1024];
+	struct pack *pmsg;
 
 	//socket()
 	fd=socket(AF_INET,SOCK_STREAM,0);
@@ -32,11 +33,18 @@ int main()
 
 	while(1)
 	{
-		printf("write:");
-		scanf("%s",buf);;
-	
+
+		printf("input buf:");
+		scanf("%s",buf);
+		pmsg = (struct pack *)malloc(sizeof(struct pack)+strlen(buf));
+		printf("input type:");
+		scanf("%d",&pmsg->type);
+		pmsg->len=strlen(buf);
+		pmsg->ver=0;
+		memcpy(pmsg->data,buf,strlen(buf));
+
 		//write()
-		ret=write(fd,buf,strlen(buf));
+		ret=write(fd,pmsg,sizeof(struct pack)+strlen(buf));
 		if(ret>=0)
 		{
 			printf("write succeed!\n");
@@ -46,6 +54,8 @@ int main()
 			close(fd);
 			return -1;
 		}
+
+		free(pmsg);
 	}
 
 }
