@@ -53,6 +53,7 @@ int main()
 				{
 					//accepe()
 					printf("accept...\n");
+					lenofaddr=sizeof(cliaddr);    //注意这里不要忘记赋值
 					sockfd=accept(fd,(struct sockaddr *)&cliaddr,&lenofaddr);
 					inet_ntop(AF_INET,&cliaddr.sin_addr.s_addr,cliip,16);
 					cliport=ntohs(cliaddr.sin_port);
@@ -80,7 +81,7 @@ int main()
 					phead=(struct pack*)malloc(sizeof(struct pack));
 
 					//read()  read head
-					ret=read(sockfd,phead,sizeof(struct pack));
+					ret=read(tfd,phead,sizeof(struct pack));
 					if(ret<=0)
 					{
 						if(ret==0)
@@ -91,9 +92,8 @@ int main()
 						{
 							printf("read error\n");
 						}
-						close(sockfd);
-						close(fd);
-						exit(-1);
+						close(tfd);
+						FD_CLR(tfd,&set);
 					}
 					else
 					{
@@ -103,7 +103,7 @@ int main()
 							case 1:
 								{
 									printf("type[%d]\n",phead->type);
-									ret=read(sockfd,buf,phead->len);
+									ret=read(tfd,buf,phead->len);
 									if(ret>0)
 									{
 										buf[ret]='\0';
@@ -119,16 +119,15 @@ int main()
 										{
 											printf("read error\n");
 										}
-										close(sockfd);
-										close(fd);
-										exit(-1);
+										close(tfd);
+										FD_CLR(tfd,&set);
 									}
 									break;
 								}
 							default :
 								{
 									printf("others type\n");
-									ret=read(sockfd,buf,phead->len);
+									ret=read(tfd,buf,phead->len);
 									if(ret>0)
 									{
 										buf[ret]='\0';
@@ -144,9 +143,8 @@ int main()
 										{
 											printf("read error\n");
 										}
-										close(sockfd);
-										close(fd);
-										exit(-1);
+										close(tfd);
+										FD_CLR(tfd,&set);
 									}
 									break;
 								}
