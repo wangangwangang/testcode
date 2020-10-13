@@ -18,7 +18,7 @@ int main()
 	//bind()
 	seraddr.sin_family=AF_INET;
 	seraddr.sin_port=htons(9000);
-	inet_pton(AF_INET,"192.168.0.4",&seraddr.sin_addr.s_addr); 
+	inet_pton(AF_INET,"192.168.159.129",&seraddr.sin_addr.s_addr); 
 	bind(fd,(struct sockaddr *)&seraddr,sizeof(seraddr));
 
 	//listen()
