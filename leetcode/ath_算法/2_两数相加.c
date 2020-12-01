@@ -12,77 +12,140 @@
 
 
 #include <stdio.h>
+#include <stdlib.h>
 
 typedef struct list
 {
-	int data;
+	int val;
 	struct list * next;
-}LIST,PLIST;
+}LIST,*PLIST;
 
-PLIST twoSum(PLIST l1,PLIST l2)
+PLIST addTwoNumbers(PLIST l1,PLIST l2)
 {
-	PLIST pl1=l1,pl2=l2,pl3=NULL;
+	PLIST head=NULL;
+	PLIST plist=NULL;
+	PLIST p=NULL;
+	PLIST llong=NULL;
+	int sum=0;
+	int count=0;
 
-	
+	for(;l1&&l2;l1=l1->next,l2=l2->next)
+	{
+		sum=l1->val+l2->val+count;
+
+		if(sum>9)
+		{
+			sum=sum-10;
+			count=1;
+		}
+		else
+			count=0;
+
+		plist=(PLIST)malloc(sizeof(LIST));
+		plist->next=NULL;
+		plist->val=sum;
+
+		if(head==NULL)
+		{
+			head=plist;
+			p=plist;
+		}
+		else
+		{
+			p->next=plist;
+			p=plist;
+		}
+	}
+
+	llong=l1?l1:l2;
+	for(;llong;llong=llong->next)
+	{
+		sum=llong->val+count;
+
+		if(sum>9)
+		{
+			sum=sum-10;
+			count=1;
+		}
+		else
+			count=0;
+
+		plist=(PLIST)malloc(sizeof(LIST));
+		plist->next=NULL;
+		plist->val=sum;
+
+		p->next=plist;
+		p=plist;
+	}
+
+	if(count)
+	{
+		plist=(PLIST)malloc(sizeof(LIST));
+		plist->next=NULL;
+		plist->val=1;
+
+		p->next=plist;
+		p=plist;
+	}
+
+	return head;
 }
 
 int main()
 {
 	int num1,num2;
 	PLIST head1=NULL,head2=NULL,returnHead=NULL;	
-	PLIST pl1=NULL,pl2=NULL,pl3=NULL;
+	PLIST p1=NULL,p2=NULL,p3=NULL;
 	PLIST plist=NULL;
 
 	printf("please input num1 and num2:");
 	scanf("%d%d",&num1,&num2);
 
-	while(num1)
+	for(;num1;num1/=10)
 	{
 		plist=(PLIST)malloc(sizeof(LIST));
-		plist->data=num1%10;
-		plist->next=NULL:
+		plist->val=num1%10;
+		plist->next=NULL;
+		
+		//无头节点后插法
 		if(head1==NULL)
 		{
 			head1=plist;
-			pl1=plist;
+			p1=plist;
 		}
 		else
 		{
-			pl1->next=plist;
-			pl1=plist;
+			p1->next=plist;
+			p1=plist;
 		}
-
-		num1=num1/10;
 	}
 
-	while(num2)
+	while(;num2;num2/=10)
 	{
 		plist=(PLIST)malloc(sizeof(LIST));
-		plist->data=num2%10;
+		plist->val=num2%10;
 		plist->next=NULL;
+		
 		if(head2==NULL)
 		{
 			head2=plist;
-			pl2=plist;
+			p2=plist;
 		}
 		else
 		{
-			pl2->next=plist;
-			pl2=plist;
+			p2->next=plist;
+			p2=plist;
 		}
-
-		num2=num2/10;
 	}
 
-	returnHead=twoSum(head1,head2);
+	returnHead=addTwoNumbers(head1,head2);
 	
-	pl3=returnHead;
-	while(pl3)
+	p3=returnHead;
+	while(p3)
 	{
-		printf("%d ",pl3->data);
-		pl3=pl3->next;
+		printf("%d ",p3->val);
+		p3=p3->next;
 	}
 
 	return 0;
-
 }
