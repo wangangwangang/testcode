@@ -1,0 +1,140 @@
+/*
+  ================================================================
+  =
+  =
+  =   文件名称：stack_list.c
+  =   创 建 者：Ang Wang  
+  =   创建日期：2020年12月14日
+  =   描    述：链栈的使用
+  =
+  ===============================================================
+*/
+
+
+#include <stdio.h>
+#include <stdlib.h>
+
+//链式栈定义
+typedef struct stack_node
+{
+	int data;
+	struct stack_node* next;
+}nodeStack;
+
+typedef struct stack_list
+{
+	nodeStack* top;
+	nodeStack* bottom;
+	int count;
+}listStack;
+
+//创建空栈
+listStack* create()
+{
+	listStack* stack=(listStack*)malloc(sizeof(listStack));
+
+	stack->top=stack->bottom;
+	stack->top=NULL;
+	stack->count=0;
+}
+
+//判断是否为空栈
+int isEmpty(listStack* stack)
+{
+	if(stack->top==stack->bottom)
+		return 1;
+	else
+		return 0;
+}
+
+//元素入栈
+void push(listStack* stack,int elem)
+{
+	nodeStack* newNode=(nodeStack*)malloc(sizeof(nodeStack));
+	
+	newNode->data=elem;
+	newNode->next=stack->top;
+	
+	stack->top=newNode;
+	stack->count++;
+}
+
+//元素出栈
+void pop(listStack* stack,int *elem)
+{
+	if(isEmpty(stack))
+	{
+		printf("stack is empty\n");
+		return ;
+	}
+
+	nodeStack* tempNode=(nodeStack*)malloc(sizeof(nodeStack));
+
+	tempNode=stack->top;
+	*elem=tempNode->data;
+
+	stack->top=stack->top->next;
+	stack->count--;
+	
+	free(tempNode);
+	tempNode=NULL;
+}
+
+//遍历栈且不出栈
+void list_nopop(listStack* stack)
+{
+	nodeStack* p=stack->top;
+
+	while(p!=stack->bottom)
+	{
+		printf("%d\n",p->data);
+		p=p->next;
+	}
+}
+
+//遍历且出栈
+void list_pop(listStack* stack)
+{
+	int elem;
+	while(stack->count>0)
+	{
+		pop(stack,&elem);
+		printf("%d\n",elem);
+	}
+}
+
+//清空栈
+void destroy(listStack* stack)
+{
+	list_pop(stack);
+
+	free(stack->top);
+	stack->top=NULL;
+}
+
+//主函数
+int main()
+{
+	int a=1;
+	listStack* stack=(listStack*)malloc(sizeof(listStack));
+
+	stack=create();									//创建空栈
+
+	while(a)										//循环入栈
+	{
+		printf("please input[0 quit]:");
+		scanf("%d",&a);
+		push(stack,a);
+	}
+
+	list_nopop(stack);								//遍历栈且元素不出栈
+	list_pop(stack);								//遍历栈且元素出栈
+	destroy(stack);									//销毁栈
+	return 0;
+}
+
+
+
+
+
+
